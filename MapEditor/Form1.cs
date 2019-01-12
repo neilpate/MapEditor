@@ -13,7 +13,6 @@ namespace MapEditor
 {
     public partial class Form1 : Form
     {
-        List<string> tileSets;
         private TilesetView tilesetView;
 
         public Form1()
@@ -23,23 +22,26 @@ namespace MapEditor
             treeViewTilesets.AfterSelect += OnSelectedTilesetChanged;
             tilesetView = new TilesetView() { Dock = DockStyle.Fill };
 
+            splitContainer1.Panel2.Controls.Clear();
+            splitContainer1.Panel2.Controls.Add(tilesetView);
+
+
+
         }
 
         private void OnSelectedTilesetChanged(object sender, TreeViewEventArgs e)
         {
-            var selectedEpisode = treeViewTilesets.SelectedNode.Tag as string;
-            splitContainer1.Panel2.Controls.Clear();
-            splitContainer1.Panel2.Controls.Add(tilesetView);
-            tilesetView.SetInfo(selectedEpisode);
-        //    Image image = 
+            var selectedTileset = treeViewTilesets.SelectedNode.Tag as string;
+
+            tilesetView.SetInfo(selectedTileset);
+          
 
 
-          //  tilesetView.SetImage = 
         }
 
         void updateTilesets()
         {
-            DirectoryInfo d = new DirectoryInfo(@"c:\temp\tilesets");
+            DirectoryInfo d = new DirectoryInfo(@"tilesets");
 
             FileInfo[] files = d.GetFiles();
             foreach (var file in files)

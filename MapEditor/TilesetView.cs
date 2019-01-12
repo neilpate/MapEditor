@@ -12,24 +12,47 @@ namespace MapEditor
 {
     public partial class TilesetView : UserControl
     {
+
+        Dictionary<string, Tileset> tileSets = new Dictionary<string, Tileset>();
+        private string selectedTileset;
+        private Tileset currentTileset;
+
+
         public TilesetView()
         {
             InitializeComponent();
         }
 
-        public void SetInfo(string name)
+        public void SetInfo(string selectedTileset)
         {
-            labelInfo.Text = name;
+
+            this.selectedTileset = selectedTileset;
+            toolStripStatusLabelSelectedTileset.Text = selectedTileset;
+
+            if (!tileSets.TryGetValue(selectedTileset, out currentTileset))
+            {
+                currentTileset = new Tileset($@"tilesets\{selectedTileset}");
+                tileSets.Add(selectedTileset, currentTileset);
+            }
+
+            this.Invalidate();
         }
 
-        public void SetImage(Image image)
+
+
+
+
+        protected override void OnPaint(PaintEventArgs e)
         {
-            pictureBoxTileset.Image = image;
+            e.Graphics.DrawImage(currentTileset.image, 0,0);
+
+            base.OnPaint(e);
         }
 
-        private void pictureBoxTileset_MouseMove(object sender, MouseEventArgs e)
+        private void TilesetView_MouseMove(object sender, MouseEventArgs e)
         {
             toolStripCursorPosition.Text = e.Location.ToString();
         }
+
     }
 }

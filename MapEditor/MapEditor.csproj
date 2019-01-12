@@ -54,6 +54,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tileset.cs" />
     <Compile Include="TilesetView.cs">
       <SubType>UserControl</SubType>
     </Compile>
