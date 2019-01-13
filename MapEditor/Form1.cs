@@ -52,8 +52,12 @@ namespace MapEditor
             FileInfo[] files = d.GetFiles();
             foreach (var file in files)
             {
-                TreeNode node = new TreeNode(file.Name) { Tag = file.Name };
-                treeViewTilesets.Nodes.Add(node);
+                if (file.Extension == ".png")
+                {
+                    TreeNode node = new TreeNode(file.Name) { Tag = file.Name };
+                    treeViewTilesets.Nodes.Add(node);
+
+                }
             }
         }
     }

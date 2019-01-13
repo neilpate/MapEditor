@@ -81,8 +81,10 @@ namespace MapEditor
                 Math.Abs(mouseDownLocation.Y - mouseUpLocation.Y));
 
             //GetTile cropRect use Origin + size
-             
-            Stamp(currentTileset.GetTile(cropRect));
+
+            //Do not try and stamp if either the height or width of the croprect are zero
+            if (cropRect.Width !=0 && cropRect.Height != 0)
+                            Stamp(currentTileset.GetTile(cropRect));
 
 
         }
