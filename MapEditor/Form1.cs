@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace MapEditor
 {
     public partial class Form1 : Form
@@ -18,13 +19,18 @@ namespace MapEditor
         public Form1()
         {
             InitializeComponent();
+
+            MapView mapView = new MapView();
+
             updateTilesets();
             treeViewTilesets.AfterSelect += OnSelectedTilesetChanged;
-            tilesetView = new TilesetView() { Dock = DockStyle.Fill };
+            tilesetView = new TilesetView(mapView) { Dock = DockStyle.Fill };
 
             splitContainer1.Panel2.Controls.Clear();
             splitContainer1.Panel2.Controls.Add(tilesetView);
 
+
+            mapView.Show();
 
 
         }

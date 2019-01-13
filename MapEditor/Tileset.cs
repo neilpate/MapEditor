@@ -10,12 +10,21 @@ namespace MapEditor
     public class Tileset
     {
         string path;
-        public Image image { get; }
+        public Bitmap AllTiles { get; }
+        public Bitmap Tile;
+
 
         public Tileset(string path)
         {
             this.path = path;
-            image = Image.FromFile(path);
+            AllTiles = new Bitmap(path);
+        }
+
+        //Returns the image data for the desired crop rectangle
+        public Bitmap GetTile(Rectangle cropRect)
+        {
+            System.Drawing.Imaging.PixelFormat format = AllTiles.PixelFormat;
+            return AllTiles.Clone(cropRect, format);
         }
 
     }
