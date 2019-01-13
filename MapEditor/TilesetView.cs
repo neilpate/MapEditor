@@ -25,6 +25,8 @@ namespace MapEditor
 
         private Bitmap stamp;
 
+        private Grid grid = new Grid();
+
 
         public TilesetView(MapView mapView)
         {
@@ -55,6 +57,12 @@ namespace MapEditor
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.DrawImage(currentTileset.AllTiles, 0,0);
+
+            grid.Width = this.Width;
+            grid.Height = this.Height;
+
+            Point startPosition = new Point(0, 0);
+            grid.Draw(e.Graphics, startPosition);
 
             base.OnPaint(e);
         }

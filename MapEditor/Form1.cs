@@ -16,6 +16,8 @@ namespace MapEditor
     {
         private TilesetView tilesetView;
 
+
+
         public Form1()
         {
             InitializeComponent();

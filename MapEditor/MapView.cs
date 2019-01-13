@@ -12,8 +12,10 @@ namespace MapEditor
 {
     public partial class MapView : Form
     {
-        Bitmap stamp;
-        Grid grid = new Grid();
+        private Bitmap stamp;
+        private Grid grid = new Grid();
+        private Point stampLocation = new Point();
+
 
         public MapView()
         {
@@ -30,12 +32,17 @@ namespace MapEditor
       
         protected override void OnPaint(PaintEventArgs e)
         {
+            Graphics g = e.Graphics;
+            g.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
             if (stamp != null)
-                e.Graphics.DrawImage(stamp, 0, 0);
+                g.DrawImage(stamp, stampLocation);
 
             grid.Width = this.Width;
             grid.Height = this.Height;
-            grid.Draw(e.Graphics);
+
+            Point startPosition = new Point(0, toolStrip1.Height);
+
+            grid.Draw(g, startPosition);
 
             base.OnPaint(e);
         }
@@ -70,6 +77,16 @@ namespace MapEditor
             grid.Size = 64;
             Invalidate();
 
+        }
+
+        private void MapView_MouseMove(object sender, MouseEventArgs e)
+        {
+            statusStripMousePositionLabel.Text = e.Location.ToString();
+        }
+
+        private void MapView_MouseDown(object sender, MouseEventArgs e)
+        {
+            stampLocation = e.Location;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace MapEditor
             Size = 32;     
         }
 
-        public void Draw(Graphics g)
+        public void Draw(Graphics g, Point startPosition)
         {
 
             Point startPoint = new Point();
@@ -30,10 +30,10 @@ namespace MapEditor
             //Draw horizontal lines
             //Step through y values
             //Need to account for the toolstrip
-            int startY = 20; // toolStrip1.Height;
-            for (int y = startY; y < Height; y += Size)
+            int startY = startPosition.Y; // toolStrip1.Height;
+            for (int y = startPosition.Y; y < Height; y += Size)
             {
-                startPoint.X = 0;
+                startPoint.X = startPosition.X;
                 startPoint.Y = y;
 
                 endPoint.X = Width;
@@ -45,10 +45,10 @@ namespace MapEditor
 
             //Draw vertical lines
             //Step through x values
-            for (int x = 0; x < Width; x += Size)
+            for (int x = startPosition.X; x < Width; x += Size)
             {
                 startPoint.X = x;
-                startPoint.Y = startY;
+                startPoint.Y = startPosition.Y;
 
                 endPoint.X = x;
                 endPoint.Y = Height;
