@@ -74,32 +74,47 @@ namespace MapEditor
 
         private void TilesetView_MouseDown(object sender, MouseEventArgs e)
         {
-            mouseDownLocation = e.Location;
+            Point snappedLocation = new Point();
+            snappedLocation.X = e.Location.X - (e.Location.X % grid.Size);
+            snappedLocation.Y = e.Location.Y - (e.Location.Y % grid.Size);
+
+            mouseDownLocation = snappedLocation;
+
+            Rectangle cropRect = new Rectangle();
+
+            cropRect.X = snappedLocation.X;
+            cropRect.Y = snappedLocation.Y;
+            cropRect.Width = grid.Size;
+            cropRect.Height = grid.Size;
+
+            Tile tile = new Tile(currentTileset.GetTile(cropRect));
+            mapView.AddTile(tile);
+            mapView.Invalidate();
         }
 
         private void TilesetView_MouseUp(object sender, MouseEventArgs e)
         {
-            mouseUpLocation = e.Location;
+        //    mouseUpLocation = e.Location;
 
 //Calculate the dimensions of the desired tile as per the users down and up click
 
-            Rectangle cropRect = new Rectangle(Math.Min(mouseDownLocation.X, mouseUpLocation.X), 
-                Math.Min(mouseDownLocation.Y, mouseUpLocation.Y),
-                Math.Abs(mouseDownLocation.X - mouseUpLocation.X),
-                Math.Abs(mouseDownLocation.Y - mouseUpLocation.Y));
+            //Rectangle cropRect = new Rectangle(Math.Min(mouseDownLocation.X, mouseUpLocation.X), 
+            //    Math.Min(mouseDownLocation.Y, mouseUpLocation.Y),
+            //    Math.Abs(mouseDownLocation.X - mouseUpLocation.X),
+            //    Math.Abs(mouseDownLocation.Y - mouseUpLocation.Y));
 
-            //GetTile cropRect use Origin + size
+            ////GetTile cropRect use Origin + size
 
-            //Do not try and stamp if either the height or width of the croprect are zero
-            if (cropRect.Width != 0 && cropRect.Height != 0)
-            {
-                //Stamp();
-                Tile tile = new Tile(currentTileset.GetTile(cropRect));
-                mapView.AddTile(tile);
+            ////Do not try and stamp if either the height or width of the croprect are zero
+            //if (cropRect.Width != 0 && cropRect.Height != 0)
+            //{
+            //    //Stamp();
+            //    Tile tile = new Tile(currentTileset.GetTile(cropRect));
+            //    mapView.AddTile(tile);
 
-            }
+            //}
 
-            mapView.Invalidate();
+            //mapView.Invalidate();
 
 
 

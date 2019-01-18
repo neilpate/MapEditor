@@ -37,6 +37,7 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusStripMousePositionLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusSnappedPosition = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -102,7 +103,8 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statusStripMousePositionLabel});
+            this.statusStripMousePositionLabel,
+            this.toolStripStatusSnappedPosition});
             this.statusStrip1.Location = new System.Drawing.Point(0, 428);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 22);
@@ -114,6 +116,12 @@
             this.statusStripMousePositionLabel.Name = "statusStripMousePositionLabel";
             this.statusStripMousePositionLabel.Size = new System.Drawing.Size(81, 17);
             this.statusStripMousePositionLabel.Text = "{{mouse pos}}";
+            // 
+            // toolStripStatusSnappedPosition
+            // 
+            this.toolStripStatusSnappedPosition.Name = "toolStripStatusSnappedPosition";
+            this.toolStripStatusSnappedPosition.Size = new System.Drawing.Size(90, 17);
+            this.toolStripStatusSnappedPosition.Text = "{{snapped pos}}";
             // 
             // MapView
             // 
@@ -145,5 +153,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel statusStripMousePositionLabel;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusSnappedPosition;
     }
 }

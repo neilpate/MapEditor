@@ -34,8 +34,8 @@ namespace MapEditor
         {
             tile.Position = stampLocation;
 
-            stampLocation.X += 32;
-            stampLocation.Y += 32;
+           // stampLocation.X += 32;
+           // stampLocation.Y += 32;
             //new Point(0, 0);
            // tile.Position.Y = 0;
             map.AddTile(tile);
@@ -100,7 +100,15 @@ namespace MapEditor
 
         private void MapView_MouseDown(object sender, MouseEventArgs e)
         {
-            stampLocation = e.Location;
+            Point snappedLocation = new Point();
+            snappedLocation.X = e.Location.X - (e.Location.X % grid.Size);
+            snappedLocation.Y = e.Location.Y - ((e.Location.Y - toolStrip1.Height) % grid.Size);
+
+            stampLocation = snappedLocation;
+
+            toolStripStatusSnappedPosition.Text = snappedLocation.ToString();
         }
+
+ 
     }
 }
