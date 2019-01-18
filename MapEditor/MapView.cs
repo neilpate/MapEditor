@@ -38,12 +38,6 @@ namespace MapEditor
 
         public void AddCurrentTile ()
         {
-           // currentTile.Position = stampLocation;
-
-            // stampLocation.X += 32;
-            // stampLocation.Y += 32;
-            //new Point(0, 0);
-            // tile.Position.Y = 0;
             Tile tileToAdd = new Tile(currentTile.Bitmap);
             tileToAdd.Position = stampLocation;
             map.AddTile(tileToAdd);
@@ -54,20 +48,13 @@ namespace MapEditor
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            //g.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
-            //if (stamp != null)
-            //    g.DrawImage(stamp, stampLocation);
-
-         //   SuspendLayout();
-
-
             map.Paint(g);
 
 
             grid.Width = this.Width;
             grid.Height = this.Height;
 
-            Point startPosition = new Point(0, toolStrip1.Height);
+            Point startPosition = new Point(0, toolStrip1.Height+menuStrip1.Height);
 
             grid.Draw(g, startPosition);
 
@@ -112,7 +99,7 @@ namespace MapEditor
         {
             statusStripMousePositionLabel.Text = e.Location.ToString();
             snappedLocation.X = e.Location.X - (e.Location.X % grid.Size);
-            snappedLocation.Y = e.Location.Y - ((e.Location.Y - toolStrip1.Height) % grid.Size);
+            snappedLocation.Y = e.Location.Y - ((e.Location.Y - menuStrip1.Height - toolStrip1.Height) % grid.Size);
             toolStripStatusSnappedPosition.Text = snappedLocation.ToString();
 
             //If the user is still holding the button then stamp if the cell changes 
@@ -142,11 +129,16 @@ namespace MapEditor
        public void UpdateCurrentTile(Tile tile)
         {
             currentTile = tile;
+
+            this.Cursor = new Cursor(tile.Bitmap.GetHicon());
+
         }
 
         private void MapView_MouseUp(object sender, MouseEventArgs e)
         {
             mouseButtonPressed = false;
         }
+
+
     }
 }
