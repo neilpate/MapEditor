@@ -88,37 +88,10 @@ namespace MapEditor
             cropRect.Height = grid.Size;
 
             Tile tile = new Tile(currentTileset.GetTile(cropRect));
-            mapView.AddTile(tile);
-            mapView.Invalidate();
+            mapView.UpdateCurrentTile(tile); 
         }
 
-        private void TilesetView_MouseUp(object sender, MouseEventArgs e)
-        {
-        //    mouseUpLocation = e.Location;
-
-//Calculate the dimensions of the desired tile as per the users down and up click
-
-            //Rectangle cropRect = new Rectangle(Math.Min(mouseDownLocation.X, mouseUpLocation.X), 
-            //    Math.Min(mouseDownLocation.Y, mouseUpLocation.Y),
-            //    Math.Abs(mouseDownLocation.X - mouseUpLocation.X),
-            //    Math.Abs(mouseDownLocation.Y - mouseUpLocation.Y));
-
-            ////GetTile cropRect use Origin + size
-
-            ////Do not try and stamp if either the height or width of the croprect are zero
-            //if (cropRect.Width != 0 && cropRect.Height != 0)
-            //{
-            //    //Stamp();
-            //    Tile tile = new Tile(currentTileset.GetTile(cropRect));
-            //    mapView.AddTile(tile);
-
-            //}
-
-            //mapView.Invalidate();
-
-
-
-        }
+       
 
     
 

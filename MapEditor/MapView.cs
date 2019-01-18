@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace MapEditor
 {
@@ -15,12 +16,17 @@ namespace MapEditor
         private Bitmap stamp;
         private Grid grid = new Grid();
         private Point stampLocation = new Point();
+        private Tile currentTile;
+        private bool mouseButtonPressed;
+        private Point snappedLocation = new Point();
+
         public Map map = new Map();
 
 
         public MapView()
         {
             InitializeComponent();
+            DoubleBuffered = true;
         }
 
         public void Stamp(Bitmap stamp)
@@ -30,15 +36,18 @@ namespace MapEditor
             Invalidate();
         }
 
-        public void AddTile (Tile tile)
+        public void AddCurrentTile ()
         {
-            tile.Position = stampLocation;
+           // currentTile.Position = stampLocation;
 
-           // stampLocation.X += 32;
-           // stampLocation.Y += 32;
+            // stampLocation.X += 32;
+            // stampLocation.Y += 32;
             //new Point(0, 0);
-           // tile.Position.Y = 0;
-            map.AddTile(tile);
+            // tile.Position.Y = 0;
+            Tile tileToAdd = new Tile(currentTile.Bitmap);
+            tileToAdd.Position = stampLocation;
+            map.AddTile(tileToAdd);
+
         }
 
       
@@ -48,6 +57,10 @@ namespace MapEditor
             //g.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
             //if (stamp != null)
             //    g.DrawImage(stamp, stampLocation);
+
+         //   SuspendLayout();
+
+
             map.Paint(g);
 
 
@@ -59,6 +72,8 @@ namespace MapEditor
             grid.Draw(g, startPosition);
 
             base.OnPaint(e);
+
+       //     ResumeLayout();
         }
 
         private void toolStripButtonGridVisible_Click(object sender, EventArgs e)
@@ -96,19 +111,42 @@ namespace MapEditor
         private void MapView_MouseMove(object sender, MouseEventArgs e)
         {
             statusStripMousePositionLabel.Text = e.Location.ToString();
+            snappedLocation.X = e.Location.X - (e.Location.X % grid.Size);
+            snappedLocation.Y = e.Location.Y - ((e.Location.Y - toolStrip1.Height) % grid.Size);
+            toolStripStatusSnappedPosition.Text = snappedLocation.ToString();
+
+            //If the user is still holding the button then stamp if the cell changes 
+            if (mouseButtonPressed)
+
+                if ((e.Location.X != snappedLocation.X) || (e.Location.Y != snappedLocation.Y))
+                {
+                    stampLocation = snappedLocation;
+                    AddCurrentTile();
+                    Invalidate();
+                }
+                
+
         }
 
         private void MapView_MouseDown(object sender, MouseEventArgs e)
         {
-            Point snappedLocation = new Point();
-            snappedLocation.X = e.Location.X - (e.Location.X % grid.Size);
-            snappedLocation.Y = e.Location.Y - ((e.Location.Y - toolStrip1.Height) % grid.Size);
-
+            mouseButtonPressed = true;
+           
             stampLocation = snappedLocation;
+           
+            AddCurrentTile();
 
-            toolStripStatusSnappedPosition.Text = snappedLocation.ToString();
+            Invalidate();
         }
 
- 
+       public void UpdateCurrentTile(Tile tile)
+        {
+            currentTile = tile;
+        }
+
+        private void MapView_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseButtonPressed = false;
+        }
     }
 }

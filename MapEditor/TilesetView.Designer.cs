@@ -65,7 +65,6 @@
             this.Name = "TilesetView";
             this.Size = new System.Drawing.Size(594, 430);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TilesetView_MouseDown);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TilesetView_MouseUp);
 
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.TilesetView_MouseMove);
             this.statusStrip1.ResumeLayout(false);

@@ -9,17 +9,18 @@ namespace MapEditor
 {
     public class Tile
     {
-        private Bitmap bitmap;
+        public Bitmap Bitmap { get; }           //this is a bit of a bodge
         public Point Position { get; set; }
 
         public Tile(Bitmap bitmap)
         {
-            this.bitmap = bitmap;
+            this.Bitmap = bitmap;
         }
-
+        
         public void Draw(Graphics g)
         {
-            g.DrawImage(bitmap, Position);
+            g.DrawImage(Bitmap, Position);
         }
+
     }
 }

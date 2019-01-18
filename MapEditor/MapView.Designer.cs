@@ -134,6 +134,7 @@
             this.Text = "MapView";
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MapView_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MapView_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MapView_MouseUp);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
