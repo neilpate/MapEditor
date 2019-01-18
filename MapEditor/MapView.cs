@@ -15,6 +15,7 @@ namespace MapEditor
         private Bitmap stamp;
         private Grid grid = new Grid();
         private Point stampLocation = new Point();
+        public Map map = new Map();
 
 
         public MapView()
@@ -29,13 +30,26 @@ namespace MapEditor
             Invalidate();
         }
 
+        public void AddTile (Tile tile)
+        {
+            tile.Position = stampLocation;
+
+            stampLocation.X += 32;
+            stampLocation.Y += 32;
+            //new Point(0, 0);
+           // tile.Position.Y = 0;
+            map.AddTile(tile);
+        }
+
       
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            g.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
-            if (stamp != null)
-                g.DrawImage(stamp, stampLocation);
+            //g.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
+            //if (stamp != null)
+            //    g.DrawImage(stamp, stampLocation);
+            map.Paint(g);
+
 
             grid.Width = this.Width;
             grid.Height = this.Height;

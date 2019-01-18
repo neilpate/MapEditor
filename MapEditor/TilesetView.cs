@@ -91,18 +91,21 @@ namespace MapEditor
             //GetTile cropRect use Origin + size
 
             //Do not try and stamp if either the height or width of the croprect are zero
-            if (cropRect.Width !=0 && cropRect.Height != 0)
-                            Stamp(currentTileset.GetTile(cropRect));
+            if (cropRect.Width != 0 && cropRect.Height != 0)
+            {
+                //Stamp();
+                Tile tile = new Tile(currentTileset.GetTile(cropRect));
+                mapView.AddTile(tile);
+
+            }
+
+            mapView.Invalidate();
+
 
 
         }
 
-        private void Stamp(Bitmap stamp)
-        {
-            //Stamp = 
-
-            mapView.Stamp(stamp);
-        }
+    
 
     }
 }
