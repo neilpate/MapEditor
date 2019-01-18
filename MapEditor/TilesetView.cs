@@ -17,21 +17,17 @@ namespace MapEditor
         Dictionary<string, Tileset> tileSets = new Dictionary<string, Tileset>();
         private string selectedTileset;
         private Tileset currentTileset;
-
-        private Point mouseDownLocation;
-        private Point mouseUpLocation;
-
         private MapView mapView;
-
-        private Bitmap stamp;
-
+        private Point snappedLocation;
         private Grid grid = new Grid();
-
+        private Point[] points = new Point[5];
 
         public TilesetView(MapView mapView)
         {
             InitializeComponent();
+            DoubleBuffered = true;
             this.mapView = mapView;
+            snappedLocation = new Point(0, 0);
 
         }
 
@@ -64,21 +60,70 @@ namespace MapEditor
             Point startPosition = new Point(0, 0);
             grid.Draw(e.Graphics, startPosition);
 
+            Pen pen = new Pen(Color.LimeGreen)
+            {
+                Width = 5,
+                DashStyle = System.Drawing.Drawing2D.DashStyle.Dash
+            };
+            e.Graphics.DrawLines(pen, points);
+            pen.Dispose();
+
             base.OnPaint(e);
         }
 
         private void TilesetView_MouseMove(object sender, MouseEventArgs e)
         {
             toolStripCursorPosition.Text = e.Location.ToString();
+
+            Point newSnappedLocation = new Point
+            {
+                X = e.Location.X - (e.Location.X % grid.Size),
+                Y = e.Location.Y - (e.Location.Y % grid.Size)
+            };
+
+            //Only bother updating the selection rectangle if the mouse is over a new tile
+            if ((newSnappedLocation.X != snappedLocation.X) || (newSnappedLocation.Y != snappedLocation.Y))
+            {
+                snappedLocation = newSnappedLocation;
+
+                Rectangle cropRect = new Rectangle();
+
+                newSnappedLocation.X = newSnappedLocation.X;
+                newSnappedLocation.Y = newSnappedLocation.Y;
+
+                cropRect.X = newSnappedLocation.X;
+                cropRect.Y = newSnappedLocation.Y;
+                cropRect.Width = grid.Size;
+                cropRect.Height = grid.Size;
+
+                points[0].X = cropRect.X;
+                points[0].Y = cropRect.Y;
+
+                points[1].X = cropRect.X + cropRect.Width;
+                points[1].Y = cropRect.Y;
+
+                points[2].X = cropRect.X + cropRect.Width;
+                points[2].Y = cropRect.Y + cropRect.Height;
+
+                points[3].X = cropRect.X;
+                points[3].Y = cropRect.Y + cropRect.Height;
+
+                points[4].X = cropRect.X;
+                points[4].Y = cropRect.Y;
+
+                Invalidate();
+
+            }
+
         }
 
         private void TilesetView_MouseDown(object sender, MouseEventArgs e)
         {
-            Point snappedLocation = new Point();
-            snappedLocation.X = e.Location.X - (e.Location.X % grid.Size);
-            snappedLocation.Y = e.Location.Y - (e.Location.Y % grid.Size);
-
-            mouseDownLocation = snappedLocation;
+            Point snappedLocation = new Point()
+            {
+                X = e.Location.X - (e.Location.X % grid.Size),
+                Y = e.Location.Y - (e.Location.Y % grid.Size)
+            };
 
             Rectangle cropRect = new Rectangle();
 
@@ -88,7 +133,10 @@ namespace MapEditor
             cropRect.Height = grid.Size;
 
             Tile tile = new Tile(currentTileset.GetTile(cropRect));
-            mapView.UpdateCurrentTile(tile); 
+            mapView.UpdateCurrentTile(tile);
+
+            
+
         }
 
        
