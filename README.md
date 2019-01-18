@@ -2,4 +2,4 @@
 
 First maps now constructable.
 
-<img src="screenshots/firstmap.png">
+<img src="../../screenshots/firstmap.png">
