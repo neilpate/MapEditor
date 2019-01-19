@@ -10,7 +10,7 @@ namespace MapEditor
     public class Tile
     {
         public Bitmap Bitmap { get; }           //this is a bit of a bodge
-        public Point Position { get; set; }
+        public Point Position { get; set; }     //Position is the cell index
 
         public Tile(Bitmap bitmap)
         {

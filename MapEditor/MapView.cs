@@ -19,7 +19,7 @@ namespace MapEditor
         private Point stampLocation = new Point();
         private Tile currentTile;
         private bool mouseButtonPressed;
-        private Point snappedLocation = new Point();
+        private Point cellLocation = new Point();
 
         public Map map = new Map();
 
@@ -48,20 +48,9 @@ namespace MapEditor
       
         protected override void OnPaint(PaintEventArgs e)
         {
-            Graphics g = e.Graphics;
-            map.Paint(g);
-
-
-            grid.Width = this.Width;
-            grid.Height = this.Height;
-
-            Point startPosition = new Point(0, toolStrip1.Height+menuStrip1.Height);
-
-            grid.Draw(g, startPosition);
-
+            pictureBoxMap.Invalidate();
             base.OnPaint(e);
 
-       //     ResumeLayout();
         }
 
         private void toolStripButtonGridVisible_Click(object sender, EventArgs e)
@@ -96,36 +85,7 @@ namespace MapEditor
 
         }
 
-        private void MapView_MouseMove(object sender, MouseEventArgs e)
-        {
-            statusStripMousePositionLabel.Text = e.Location.ToString();
-            snappedLocation.X = e.Location.X - (e.Location.X % grid.Size);
-            snappedLocation.Y = e.Location.Y - ((e.Location.Y - menuStrip1.Height - toolStrip1.Height) % grid.Size);
-            toolStripStatusSnappedPosition.Text = snappedLocation.ToString();
-
-            //If the user is still holding the button then stamp if the cell changes 
-            if (mouseButtonPressed)
-
-                if ((e.Location.X != snappedLocation.X) || (e.Location.Y != snappedLocation.Y))
-                {
-                    stampLocation = snappedLocation;
-                    AddCurrentTile();
-                    Invalidate();
-                }
-                
-
-        }
-
-        private void MapView_MouseDown(object sender, MouseEventArgs e)
-        {
-            mouseButtonPressed = true;
-           
-            stampLocation = snappedLocation;
-           
-            AddCurrentTile();
-
-            Invalidate();
-        }
+        
 
        public void UpdateCurrentTile(Tile tile)
         {
@@ -135,12 +95,8 @@ namespace MapEditor
 
         }
 
-        private void MapView_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouseButtonPressed = false;
-        }
 
-        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "PNG Image |*.png";
@@ -159,10 +115,60 @@ namespace MapEditor
 
                 bitmap.Save(fs, System.Drawing.Imaging.ImageFormat.Png);
 
-                //bitmap.
 
 
             }
         }
+
+        private void pictureBoxMap_MouseMove(object sender, MouseEventArgs e)
+        {
+            statusStripMousePositionLabel.Text = e.Location.ToString();
+            cellLocation.X = e.Location.X - (e.Location.X % grid.Size);
+            cellLocation.Y = e.Location.Y - (e.Location.Y % grid.Size);
+            toolStripStatusSnappedPosition.Text = cellLocation.ToString();
+
+            //If the user is still holding the button then stamp if the cell changes 
+            if (mouseButtonPressed)
+
+                if ((e.Location.X != cellLocation.X) || (e.Location.Y != cellLocation.Y))
+                {
+                    stampLocation = cellLocation;
+                    AddCurrentTile();
+                    pictureBoxMap.Invalidate();
+                }
+
+
+        }
+
+        //Stamp the tile onto the current cell position
+        private void pictureBoxMap_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseButtonPressed = true;
+            stampLocation = cellLocation;
+            AddCurrentTile();
+            Invalidate();
+        }
+
+        private void pictureBoxMap_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseButtonPressed = false;
+
+        }
+
+        private void pictureBoxMap_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            map.Paint(g);
+
+            grid.Width = this.Width;
+            grid.Height = this.Height;
+
+            Point startPosition = new Point(0, 0);
+
+            grid.Draw(g, startPosition);
+
+        }
+
+        
     }
 }
