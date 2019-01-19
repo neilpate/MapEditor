@@ -12,13 +12,13 @@ using System.Windows.Forms;
 
 namespace MapEditor
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private TilesetView tilesetView;
 
 
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
 

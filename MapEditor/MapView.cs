@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -139,6 +140,29 @@ namespace MapEditor
             mouseButtonPressed = false;
         }
 
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "PNG Image |*.png";
+            sfd.Title = "Select file to save";
+            sfd.ShowDialog();
 
+            if (sfd.FileName != "")
+            {
+                FileStream fs = (FileStream)sfd.OpenFile();
+
+                Bitmap bitmap = new Bitmap(1000, 1000);
+
+                Graphics g = Graphics.FromImage(bitmap);
+
+                map.Paint(g);
+
+                bitmap.Save(fs, System.Drawing.Imaging.ImageFormat.Png);
+
+                //bitmap.
+
+
+            }
+        }
     }
 }
