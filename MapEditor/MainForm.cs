@@ -16,7 +16,7 @@ namespace MapEditor
     {
         private TilesetView tilesetView;
 
-
+       
 
         public MainForm()
         {
@@ -32,6 +32,9 @@ namespace MapEditor
             splitContainer1.Panel2.Controls.Add(tilesetView);
 
 
+            StartPosition = FormStartPosition.Manual;
+            this.Location = Screen.AllScreens[0].WorkingArea.Location;
+           // Location.X = 400;
             mapView.Show();
 
 

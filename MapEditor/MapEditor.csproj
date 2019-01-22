@@ -54,6 +54,12 @@
     </Compile>
     <Compile Include="Grid.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="MapOptionsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MapOptionsDialog.Designer.cs">
+      <DependentUpon>MapOptionsDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="MapView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +78,9 @@
     </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MapOptionsDialog.resx">
+      <DependentUpon>MapOptionsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MapView.resx">
       <DependentUpon>MapView.cs</DependentUpon>

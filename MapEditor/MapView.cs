@@ -20,6 +20,7 @@ namespace MapEditor
         private Tile currentTile;
         private bool mouseButtonPressed;
         private Point cellLocation = new Point();
+        private MapOptionsDialog mapOptionsDialog = new MapOptionsDialog();
 
         public Map map = new Map();
 
@@ -28,6 +29,9 @@ namespace MapEditor
         {
             InitializeComponent();
             DoubleBuffered = true;
+
+            StartPosition = FormStartPosition.Manual;
+            this.Location = Screen.AllScreens[0].WorkingArea.Location;
         }
 
         public void Stamp(Bitmap stamp)
@@ -39,15 +43,20 @@ namespace MapEditor
 
         public void AddCurrentTile ()
         {
-            Tile tileToAdd = new Tile(currentTile.Bitmap);
-            tileToAdd.Position = stampLocation;
-            map.AddTile(tileToAdd);
+            if (currentTile != null)
+            {
+                Tile tileToAdd = new Tile(currentTile.Bitmap);
+                tileToAdd.Position = stampLocation;
+                map.AddTile(tileToAdd);
+
+            }
 
         }
 
       
         protected override void OnPaint(PaintEventArgs e)
         {
+            Console.WriteLine("Entered OnPaint");
             pictureBoxMap.Invalidate();
             base.OnPaint(e);
 
@@ -60,6 +69,7 @@ namespace MapEditor
             grid.Visible = !grid.Visible;
 
             Invalidate();
+            Update();
 
         }
 
@@ -105,18 +115,7 @@ namespace MapEditor
 
             if (sfd.FileName != "")
             {
-                FileStream fs = (FileStream)sfd.OpenFile();
-
-                Bitmap bitmap = new Bitmap(1000, 1000);
-
-                Graphics g = Graphics.FromImage(bitmap);
-
-                map.Paint(g);
-
-                bitmap.Save(fs, System.Drawing.Imaging.ImageFormat.Png);
-
-
-
+                map.Save(sfd.FileName);
             }
         }
 
@@ -147,12 +146,12 @@ namespace MapEditor
             stampLocation = cellLocation;
             AddCurrentTile();
             Invalidate();
+            
         }
 
         private void pictureBoxMap_MouseUp(object sender, MouseEventArgs e)
         {
             mouseButtonPressed = false;
-
         }
 
         private void pictureBoxMap_Paint(object sender, PaintEventArgs e)
@@ -169,6 +168,15 @@ namespace MapEditor
 
         }
 
-        
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mapOptionsDialog.ShowDialog();
+            int size = (int)mapOptionsDialog.numericUpDownGridSize.Value;
+            grid.Size = size;
+            
+           // this.Invalidate();
+           // this.Update();
+            this.Refresh();
+        }
     }
 }

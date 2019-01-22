@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace MapEditor
 {
@@ -25,5 +26,22 @@ namespace MapEditor
             }
         }
 
+        public void Save(string filename)
+        {
+            using (FileStream fs = File.Create(filename))
+            {
+                Bitmap bitmap = new Bitmap(1000, 1000);
+
+                Graphics g = Graphics.FromImage(bitmap);
+
+                Paint(g);
+
+                bitmap.Save(fs, System.Drawing.Imaging.ImageFormat.Png);
+
+               
+
+            }
+
+        }
     }
 }

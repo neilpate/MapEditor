@@ -59,7 +59,6 @@
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.customizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -317,23 +316,17 @@
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.customizeToolStripMenuItem,
             this.optionsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
             // 
-            // customizeToolStripMenuItem
-            // 
-            this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-            this.customizeToolStripMenuItem.Text = "&Customize";
-            // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.optionsToolStripMenuItem.Text = "&Options";
+            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -372,8 +365,10 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
+            this.Location = new System.Drawing.Point(-100, 0);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MapView";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MapView";
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
@@ -418,7 +413,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem customizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
