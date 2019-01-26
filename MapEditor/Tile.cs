@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace MapEditor
 {
+    [Serializable]
     public class Tile
     {
         public Bitmap Bitmap { get; }           //this is a bit of a bodge

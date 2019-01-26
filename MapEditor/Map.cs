@@ -8,10 +8,12 @@ using System.IO;
 
 namespace MapEditor
 {
+    [Serializable]
     public class Map
     {
         List<Tile> tiles = new List<Tile>();
         public int Size { get; set; }
+        public string Name { get; set; }
 
         public Map()
         {

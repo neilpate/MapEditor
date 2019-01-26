@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -190,5 +191,56 @@ namespace MapEditor
 
             this.Refresh();
         }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "map files (*.map)|*.map";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                map.Name = Path.GetFileName(saveFileDialog.FileName);
+                var formatter = new BinaryFormatter();
+                var stream = new FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write);
+                formatter.Serialize(stream, map);
+                stream.Close();
+
+                this.Text = map.Name;
+            }
+
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var formatter = new BinaryFormatter();
+            var stream = new FileStream(map.Name, FileMode.Create, FileAccess.Write);
+            formatter.Serialize(stream, map);
+            stream.Close();
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "map files (*.map)|*.map";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var formatter = new BinaryFormatter();
+                var stream = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read);
+
+                Map mapNew = (Map)formatter.Deserialize(stream);
+                map = mapNew;
+                stream.Close();
+
+                this.Text = map.Name;
+                this.Refresh();
+
+            }
+
+
+          }
+
+        
     }
 }
