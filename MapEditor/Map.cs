@@ -11,6 +11,12 @@ namespace MapEditor
     public class Map
     {
         List<Tile> tiles = new List<Tile>();
+        public int Size { get; set; }
+
+        public Map()
+        {
+            Size = 320;
+        }
 
         public void AddTile(Tile newTile)
         {

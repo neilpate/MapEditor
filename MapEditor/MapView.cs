@@ -20,7 +20,6 @@ namespace MapEditor
         private Tile currentTile;
         private bool mouseButtonPressed;
         private Point cellLocation = new Point();
-        private MapOptionsDialog mapOptionsDialog = new MapOptionsDialog();
 
         public Map map = new Map();
 
@@ -129,6 +128,8 @@ namespace MapEditor
             //If the user is still holding the button then stamp if the cell changes 
             if (mouseButtonPressed)
 
+                if (inMapBounds(cellLocation))
+
                 if ((e.Location.X != cellLocation.X) || (e.Location.Y != cellLocation.Y))
                 {
                     stampLocation = cellLocation;
@@ -143,10 +144,21 @@ namespace MapEditor
         private void pictureBoxMap_MouseDown(object sender, MouseEventArgs e)
         {
             mouseButtonPressed = true;
-            stampLocation = cellLocation;
-            AddCurrentTile();
-            Invalidate();
-            
+            if ( inMapBounds(stampLocation) )
+            {
+                stampLocation = cellLocation;
+                AddCurrentTile();
+                Invalidate();
+            }
+
+        }
+
+        private bool inMapBounds(Point point)
+        {
+            if ((point.X <= map.Size) && (point.Y <= map.Size))
+                return true;
+            else
+                return false;
         }
 
         private void pictureBoxMap_MouseUp(object sender, MouseEventArgs e)
@@ -159,8 +171,8 @@ namespace MapEditor
             Graphics g = e.Graphics;
             map.Paint(g);
 
-            grid.Width = this.Width;
-            grid.Height = this.Height;
+            grid.Width = map.Size;
+            grid.Height = map.Size;
 
             Point startPosition = new Point(0, 0);
 
@@ -170,12 +182,12 @@ namespace MapEditor
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var mapOptionsDialog = new MapOptionsDialog(map);
+
             mapOptionsDialog.ShowDialog();
-            int size = (int)mapOptionsDialog.numericUpDownGridSize.Value;
-            grid.Size = size;
-            
-           // this.Invalidate();
-           // this.Update();
+
+            grid.Size = mapOptionsDialog.GridSize;
+
             this.Refresh();
         }
     }
